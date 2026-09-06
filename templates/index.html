@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>MarkWise AI</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #eef2ff;
+            color: #1e293b;
+        }
+
+        .header {
+            text-align: center;
+            padding: 35px 20px 20px;
+        }
+
+        .logo {
+            font-size: 42px;
+        }
+
+        h1 {
+            margin: 8px 0;
+            font-size: 36px;
+        }
+
+        .tagline {
+            color: #64748b;
+            font-size: 17px;
+        }
+
+        .container {
+            max-width: 950px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 18px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        input,
+        textarea {
+            width: 100%;
+            padding: 13px;
+            border: 1px solid #cbd5e1;
+            border-radius: 9px;
+            font-size: 15px;
+            outline: none;
+        }
+
+        input:focus,
+        textarea:focus {
+            border-color: #6366f1;
+        }
+
+        textarea {
+            min-height: 180px;
+            resize: vertical;
+        }
+
+        .field {
+            margin-bottom: 20px;
+        }
+
+        .button-area {
+            display: flex;
+            gap: 12px;
+        }
+
+        button {
+            flex: 1;
+            padding: 14px;
+            border: none;
+            border-radius: 9px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .evaluate-btn {
+            background: #4f46e5;
+            color: white;
+        }
+
+        .evaluate-btn:hover {
+            background: #4338ca;
+        }
+
+        .clear-btn {
+            background: #e2e8f0;
+            color: #334155;
+        }
+
+        .clear-btn:hover {
+            background: #cbd5e1;
+        }
+
+        #loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+            color: #4f46e5;
+            font-weight: bold;
+        }
+
+        #error {
+            color: #dc2626;
+            text-align: center;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+
+        #result {
+            display: none;
+            margin-top: 30px;
+        }
+
+        .result-header {
+            background: #4f46e5;
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 15px;
+        }
+
+        .result-header h2 {
+            margin: 0;
+        }
+
+        .feedback {
+            background: #f8fafc;
+            border-left: 5px solid #4f46e5;
+            padding: 18px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            white-space: pre-wrap;
+            line-height: 1.7;
+            }
+.score-box {
+    background: #eef2ff;
+    border: 2px solid #4f46e5;
+    border-radius: 12px;
+    padding: 18px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.score-box h3 {
+    margin: 0 0 8px;
+    font-size: 18px;
+}
+
+.score-box .score {
+    font-size: 32px;
+    font-weight: bold;
+}
+.feedback strong {
+    display: block;
+    font-size: 18px;
+    margin-top: 18px;
+    margin-bottom: 8px;
+    padding-bottom: 6px;
+    border-bottom: 2px solid #4f46e5;
+}
+        
+
+        .footer {
+            text-align: center;
+            color: #64748b;
+            padding: 25px;
+            font-size: 14px;
+        }
+
+        @media (max-width: 650px) {
+
+            h1 {
+                font-size: 28px;
+            }
+
+            .row {
+                grid-template-columns: 1fr;
+            }
+
+            .card {
+                padding: 20px;
+            }
+
+            .button-area {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="header">
+        <div class="logo">🎓</div>
+        <h1>MarkWise AI</h1>
+        <p class="tagline">
+            AI-Powered Answer Evaluation & Improvement Assistant
+        </p>
+    </div>
+
+    <div class="container">
+
+        <div class="card">
+
+            <div class="section-title">
+                📝 Enter Your Answer
+            </div>
+
+            <div class="row">
+
+                <div class="field">
+                    <label for="subject">Subject</label>
+                    <input
+                        type="text"
+                        id="subject"
+                        placeholder="Example: Java"
+                    >
+                </div>
+
+                <div class="field">
+                    <label for="marks">Maximum Marks</label>
+                    <input
+                        type="number"
+                        id="marks"
+                        placeholder="Example: 5"
+                        min="1"
+                    >
+                </div>
+
+            </div>
+
+            <div class="field">
+                <label for="question">Question</label>
+
+                <input
+                    type="text"
+                    id="question"
+                    placeholder="Enter your exam question"
+                >
+            </div>
+
+            <div class="field">
+                <label for="answer">Your Answer</label>
+
+                <textarea
+                    id="answer"
+                    placeholder="Write your answer here..."
+                ></textarea>
+            </div>
+
+            <div class="button-area">
+
+                <button
+                    class="evaluate-btn"
+                    onclick="evaluateAnswer()"
+                >
+                    🤖 Evaluate My Answer
+                </button>
+
+                <button
+                    class="clear-btn"
+                    onclick="clearForm()"
+                >
+                    🗑️ Clear
+                </button>
+
+            </div>
+
+            <div id="loading">
+                ⏳ MarkWise AI is evaluating your answer...
+            </div>
+
+            <div id="error"></div>
+
+            <div id="result">
+
+                <div class="result-header">
+                    <h2>📊 AI Evaluation</h2>
+                </div>
+
+                <div class="feedback" id="feedback"></div>
+                <button class="copy-btn" onclick="copyImprovedAnswer()">
+    📋 Copy Improved Answer
+</button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="footer">
+        MarkWise AI • Learn from your mistakes • Improve your answers • Score better
+    </div>
+
+
+    <script>
+
+        async function evaluateAnswer() {
+
+            const subject =
+                document.getElementById("subject").value.trim();
+
+            const question =
+                document.getElementById("question").value.trim();
+
+            const marks =
+                document.getElementById("marks").value.trim();
+
+            const answer =
+                document.getElementById("answer").value.trim();
+
+            const loading =
+                document.getElementById("loading");
+
+            const error =
+                document.getElementById("error");
+
+            const result =
+                document.getElementById("result");
+
+            const feedback =
+                document.getElementById("feedback");
+
+
+            error.textContent = "";
+            result.style.display = "none";
+
+
+            if (!subject || !question || !marks || !answer) {
+
+                error.textContent =
+                    "⚠️ Please fill in all fields.";
+
+                return;
+            }
+
+
+            if (Number(marks) <= 0) {
+
+                error.textContent =
+                    "⚠️ Marks must be greater than 0.";
+
+                return;
+            }
+
+
+            loading.style.display = "block";
+
+
+            try {
+
+                const response = await fetch("/evaluate", {
+
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+
+                    body: JSON.stringify({
+
+                        subject: subject,
+                        question: question,
+                        marks: marks,
+                        answer: answer
+
+                    })
+
+                });
+
+
+                const data = await response.json();
+
+
+                loading.style.display = "none";
+
+
+                if (!response.ok) {
+
+                    error.textContent =
+                        data.error || "Something went wrong.";
+
+                    return;
+                }
+
+
+                const formattedResult = data.result
+    .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
+    .replace(/\n/g, "<br>");
+
+const scoreMatch = data.result.match(/SCORE:\s*(.*)/i);
+
+let scoreText = scoreMatch
+    ? scoreMatch[1].replace(/\*\*/g, "").trim()
+    : "Not available";
+
+const cleanResult = data.result
+    .replace(/SCORE:\s*(.*)/i, "")
+    .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
+    .replace(/\n/g, "<br>");
+
+feedback.innerHTML =
+    `<div class="score-box">
+        <h3>🏆 Estimated Score</h3>
+        <div class="score">${scoreText}</div>
+    </div>` +
+    cleanResult;
+                result.style.display = "block";
+
+            }
+
+            catch (err) {
+
+                loading.style.display = "none";
+
+                error.textContent =
+                    "❌ Unable to connect to the server. Please try again.";
+            }
+        }
+
+
+        function clearForm() {
+
+            document.getElementById("subject").value = "";
+            document.getElementById("question").value = "";
+            document.getElementById("marks").value = "";
+            document.getElementById("answer").value = "";
+
+            document.getElementById("result").style.display = "none";
+            document.getElementById("error").textContent = "";
+        }
+    function copyImprovedAnswer() {
+    const feedback = document.getElementById("feedback");
+
+    navigator.clipboard.writeText(feedback.innerText)
+        .then(() => {
+            alert("✅ Answer copied successfully!");
+        })
+        .catch(() => {
+            alert("❌ Unable to copy the answer.");
+        });
+}
+    </script>
+
+</body>
+</html>
