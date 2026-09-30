@@ -2,3 +2,14 @@ Flask
 requests
 python-dotenv
 gunicorn
+pymupdf
+sentence-transformers
+scikit-learn
+numpy
+Flask
+python-dotenv
+requests
+pymupdf
+sentence-transformers
+scikit-learn
+numpy

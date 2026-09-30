@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Smart Document Assistant | MarkWise AI</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #eef2ff, #f5f3ff, #ffffff);
+            color: #1f2937;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 92%;
+            max-width: 1100px;
+            margin: auto;
+            padding: 30px 0 60px;
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .brand {
+            font-size: 22px;
+            font-weight: bold;
+            color: #4f46e5;
+        }
+
+        .back {
+            text-decoration: none;
+            color: #4f46e5;
+            font-weight: bold;
+            background: white;
+            padding: 10px 16px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #4f46e5, #7c3aed);
+            color: white;
+            padding: 38px;
+            border-radius: 24px;
+            margin-bottom: 25px;
+            box-shadow: 0 15px 35px rgba(79,70,229,0.25);
+        }
+
+        .hero h1 {
+            font-size: 34px;
+            margin-bottom: 12px;
+        }
+
+        .hero p {
+            font-size: 16px;
+            opacity: 0.92;
+            line-height: 1.6;
+        }
+
+        .pipeline {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 10px;
+            margin-top: 28px;
+        }
+
+        .step {
+            background: rgba(255,255,255,0.14);
+            padding: 14px 8px;
+            border-radius: 12px;
+            text-align: center;
+            font-size: 13px;
+        }
+
+        .step span {
+            display: block;
+            font-size: 23px;
+            margin-bottom: 5px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 20px;
+            padding: 28px;
+            margin-bottom: 24px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.07);
+        }
+
+        .card h2 {
+            color: #312e81;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            color: #6b7280;
+            margin-bottom: 22px;
+            line-height: 1.5;
+        }
+
+        .upload-box {
+            border: 2px dashed #a5b4fc;
+            background: #eef2ff;
+            border-radius: 16px;
+            padding: 28px;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .upload-box:hover {
+            background: #e0e7ff;
+        }
+
+        .upload-icon {
+            font-size: 42px;
+            margin-bottom: 10px;
+        }
+
+        input[type="file"] {
+            width: 100%;
+            margin-top: 15px;
+            padding: 12px;
+            background: white;
+            border-radius: 10px;
+            border: 1px solid #d1d5db;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 120px;
+            resize: vertical;
+            padding: 15px;
+            border: 1px solid #d1d5db;
+            border-radius: 12px;
+            font-size: 15px;
+            outline: none;
+        }
+
+        textarea:focus {
+            border-color: #6366f1;
+            box-shadow: 0 0 0 3px rgba(99,102,241,0.12);
+        }
+
+        .button {
+            margin-top: 18px;
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #4f46e5, #7c3aed);
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .button:hover {
+            opacity: 0.92;
+            transform: translateY(-1px);
+        }
+
+        .error {
+            background: #fee2e2;
+            color: #991b1b;
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            border-left: 5px solid #dc2626;
+        }
+
+        .answer {
+            background: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            border-left: 5px solid #16a34a;
+            border-radius: 15px;
+            padding: 22px;
+            line-height: 1.7;
+            white-space: pre-wrap;
+        }
+
+        .source {
+            background: #f8fafc;
+            border: 1px solid #e5e7eb;
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 15px;
+        }
+
+        .source-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 12px;
+        }
+
+        .source-title {
+            font-weight: bold;
+            color: #312e81;
+        }
+
+        .badge {
+            background: #ede9fe;
+            color: #6d28d9;
+            padding: 6px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .source-info {
+            color: #6b7280;
+            font-size: 13px;
+            margin-bottom: 12px;
+        }
+
+        .source-text {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            line-height: 1.6;
+            font-size: 14px;
+            white-space: pre-wrap;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .info {
+            background: #f8fafc;
+            padding: 18px;
+            border-radius: 14px;
+            text-align: center;
+        }
+
+        .info-icon {
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+
+        .info strong {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .info span {
+            color: #6b7280;
+            font-size: 13px;
+        }
+
+        .footer {
+            text-align: center;
+            color: #6b7280;
+            font-size: 13px;
+            margin-top: 30px;
+        }
+
+        @media (max-width: 700px) {
+
+            .hero h1 {
+                font-size: 27px;
+            }
+
+            .pipeline {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .topbar {
+                flex-direction: column;
+                gap: 15px;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="topbar">
+        <div class="brand">⚡ MarkWise AI</div>
+
+        <a href="/" class="back">
+            ← Back to MarkWise AI
+        </a>
+    </div>
+
+
+    <!-- HERO -->
+
+    <div class="hero">
+
+        <h1>📚 Smart Document Assistant</h1>
+
+        <p>
+            Upload your documents and ask questions using
+            AI-powered semantic search and grounded document retrieval.
+        </p>
+
+        <div class="pipeline">
+
+            <div class="step">
+                <span>📄</span>
+                Upload
+            </div>
+
+            <div class="step">
+                <span>📝</span>
+                Extract
+            </div>
+
+            <div class="step">
+                <span>✂️</span>
+                Chunk
+            </div>
+
+            <div class="step">
+                <span>🧠</span>
+                Embed
+            </div>
+
+            <div class="step">
+                <span>🔎</span>
+                Retrieve
+            </div>
+
+            <div class="step">
+                <span>🤖</span>
+                Generate
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ERROR -->
+
+    {% if error %}
+
+    <div class="error">
+        ⚠️ {{ error }}
+    </div>
+
+    {% endif %}
+
+
+    <!-- UPLOAD -->
+
+    <div class="card">
+
+        <h2>📄 Upload Documents</h2>
+
+        <p class="subtitle">
+            Select one or more PDF or TXT documents.
+            The system will extract and index their content.
+        </p>
+
+        <form method="POST" enctype="multipart/form-data">
+
+            <div class="upload-box">
+
+                <div class="upload-icon">
+                    📁
+                </div>
+
+                <strong>Select PDF or TXT documents</strong>
+
+                <input
+                    type="file"
+                    name="documents"
+                    accept=".pdf,.txt"
+                    multiple
+                    required
+                >
+
+            </div>
+
+
+            <br>
+
+
+            <!-- QUESTION -->
+
+            <h2>💬 Ask a Question</h2>
+
+            <p class="subtitle">
+                Ask something that can be answered from your uploaded documents.
+            </p>
+
+            <textarea
+                name="question"
+                placeholder="Example: What are the marks of Hari?"
+                required
+            >{{ question }}</textarea>
+
+
+            <button type="submit" class="button">
+                🔎 Ask Your Documents
+            </button>
+
+        </form>
+
+    </div>
+
+
+    <!-- ANSWER -->
+
+    {% if answer %}
+
+    <div class="card">
+
+        <h2>🤖 Grounded Answer</h2>
+
+        <p class="subtitle">
+            The answer below is generated using the retrieved document context.
+        </p>
+
+        <div class="answer">
+            {{ answer }}
+        </div>
+
+    </div>
+
+    {% endif %}
+
+
+    <!-- SOURCES -->
+
+    {% if sources %}
+
+    <div class="card">
+
+        <h2>📌 Retrieved Source Context</h2>
+
+        <p class="subtitle">
+            These are the document sections retrieved before generating the answer.
+        </p>
+
+
+        {% for source in sources %}
+
+        <div class="source">
+
+            <div class="source-header">
+
+                <div class="source-title">
+                    📄 Source {{ loop.index }} — {{ source.name }}
+                </div>
+
+                <div class="badge">
+                    Similarity: {{ "%.3f"|format(source.score) }}
+                </div>
+
+            </div>
+
+            <div class="source-info">
+                📖 Page {{ source.page }}
+            </div>
+
+            <div class="source-text">
+                {{ source.text }}
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+    {% endif %}
+
+
+    <!-- HOW IT WORKS -->
+
+    <div class="card">
+
+        <h2>🧠 How This RAG System Works</h2>
+
+        <p class="subtitle">
+            This application uses a Retrieval-Augmented Generation
+            pipeline to answer questions from uploaded documents.
+        </p>
+
+        <div class="info-grid">
+
+            <div class="info">
+                <div class="info-icon">📄</div>
+                <strong>Document Processing</strong>
+                <span>
+                    PDF and TXT content is extracted.
+                </span>
+            </div>
+
+            <div class="info">
+                <div class="info-icon">🧠</div>
+                <strong>Semantic Embeddings</strong>
+                <span>
+                    Text chunks are converted into embeddings.
+                </span>
+            </div>
+
+            <div class="info">
+                <div class="info-icon">🔎</div>
+                <strong>Similarity Search</strong>
+                <span>
+                    Relevant chunks are retrieved using cosine similarity.
+                </span>
+            </div>
+
+        </div>
+
+        <div class="info-grid">
+
+            <div class="info">
+                <div class="info-icon">🤖</div>
+                <strong>Grounded Generation</strong>
+                <span>
+                    Retrieved context is supplied to the language model.
+                </span>
+            </div>
+
+            <div class="info">
+                <div class="info-icon">🛡️</div>
+                <strong>Reduced Hallucination</strong>
+                <span>
+                    The model is instructed to use document context only.
+                </span>
+            </div>
+
+            <div class="info">
+                <div class="info-icon">📚</div>
+                <strong>Source Visibility</strong>
+                <span>
+                    Retrieved document sections are shown to the user.
+                </span>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="footer">
+        MarkWise AI • Smart Document Assistant • RAG-powered document Q&A
+    </div>
+
+</div>
+
+</body>
+</html>

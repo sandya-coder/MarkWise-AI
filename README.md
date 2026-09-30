@@ -1,83 +1,128 @@
-# MarkWise AI 🎓
+# MarkWise AI
 
-MarkWise AI is an AI-powered student assistant that evaluates written exam answers and helps students improve them.
+MarkWise AI is an AI-powered application that helps users analyze
+information and interact with documents using artificial intelligence.
 
-## Problem
+## 🚀 Smart Document Assistant
 
-Students often write answers without knowing:
-- How many marks their answer may receive
-- Which important points they missed
-- What mistakes they made
-- How to improve their answer for better marks
+The project includes a Retrieval-Augmented Generation (RAG) based
+Document Q&A system.
 
-## Solution
+Users can upload one or more PDF or TXT documents and ask questions
+about their content. The system retrieves the most relevant document
+sections and provides them as context to an AI model before generating
+the answer.
 
-MarkWise AI analyzes a student's answer using an LLM and provides structured academic feedback.
+## ✨ Features
 
-The student enters:
-- Subject
-- Exam question
-- Maximum marks
-- Their answer
+- 📄 Upload PDF and TXT documents
+- 📝 Extract text from documents
+- ✂️ Split documents into overlapping chunks
+- 🧠 Generate semantic embeddings
+- 🔎 Retrieve relevant document chunks
+- 📊 Calculate cosine similarity
+- 🤖 Generate grounded AI answers
+- 📌 Display retrieved source context
+- 📖 Display source document and page number
+- 🛡️ Reduce hallucinations by grounding answers in retrieved context
+- 📚 Support multiple uploaded documents
 
-The application then provides:
-- Estimated score
-- Correct points
-- Missing points
-- Mistakes
-- Suggestions for improvement
-- Improved examination-ready answer
-- Key points to remember
-- Tips to score full marks
+## 🧠 RAG Pipeline
 
-## Features
+The application follows this pipeline:
 
-- 🤖 AI-powered answer evaluation
-- 📊 Estimated marks
-- ✅ Correct point identification
-- ❌ Missing point detection
-- ⚠️ Mistake identification
-- 💡 Personalized suggestions
-- ✍️ Improved answer generation
-- 🧠 Revision key points
-- 🏆 Full-mark scoring tips
-- 📋 Copy improved answer
-- ⚠️ Input validation
-- 📱 Mobile-friendly interface
+User Documents
+      ↓
+Text Extraction
+      ↓
+Text Chunking
+      ↓
+Embedding Generation
+      ↓
+Question Embedding
+      ↓
+Cosine Similarity Search
+      ↓
+Top Relevant Chunks
+      ↓
+LLM Context
+      ↓
+Grounded Answer
 
-## How It Works
-
-1. Student enters the subject.
-2. Student enters the exam question.
-3. Student enters the maximum marks.
-4. Student writes their answer.
-5. MarkWise AI sends the information to an LLM.
-6. The AI evaluates the answer according to the question and marks.
-7. The feedback is displayed on the webpage.
-
-## Technology Stack
+## 🔧 Technologies Used
 
 - Python
 - Flask
 - HTML
 - CSS
-- JavaScript
+- PyMuPDF
+- Sentence Transformers
+- scikit-learn
+- NumPy
 - OpenRouter API
-- Requests
-- python-dotenv
-- Gunicorn
+- Jinja2
 
-## Project Structure
+## 🧠 Embedding Model
+
+The application uses:
+
+`all-MiniLM-L6-v2`
+
+for generating semantic embeddings of document chunks and user
+questions.
+
+## 🔎 Retrieval
+
+The question embedding is compared with document chunk embeddings
+using cosine similarity.
+
+The system retrieves the top relevant chunks and provides them to the
+language model as context.
+
+## 🤖 AI Generation
+
+The retrieved document context is sent to the language model through
+the OpenRouter API.
+
+The model is instructed to:
+
+1. Answer only using the retrieved document context.
+2. Avoid using outside knowledge.
+3. Avoid inventing information.
+4. State when the requested information cannot be found.
+
+## 📌 Source Transparency
+
+For each retrieved section, the application displays:
+
+- Source file name
+- Page number
+- Similarity score
+- Retrieved text
+
+This allows users to understand which document sections were used to
+generate the answer.
+
+## 🛡️ Hallucination Reduction
+
+The system uses retrieved document context instead of directly asking
+the language model to answer from its general knowledge.
+
+If the required information is not available in the retrieved context,
+the application instructs the model to state that the information could
+not be found in the uploaded document.
+
+## 📁 Project Structure
 
 ```text
 MarkWise-AI/
 │
 ├── templates/
-│   └── index.html
+│   ├── index.html
+│   └── intermediate.html
 │
 ├── app.py
 ├── .env
-├── .gitignore
+├── requirements.txt
 ├── Procfile
-├── README.md
-└── requirements.txt
+└── README.md
